@@ -34,6 +34,7 @@ JUnit 5 & Truth (unit testing)
 Guice (dependency injection)
 
 # 📂 Project Structure
+```
 src/
  ├── main/java/com/udacity/webcrawler/
  │    ├── json/                # JSON config & result handling
@@ -44,6 +45,7 @@ src/
  │    └── ParallelWebCrawler   # New parallel crawler
  └── test/java/com/udacity/webcrawler/
       └── ... (JUnit tests)
+```
 
 # 🛠️ Setup & Run
 Prerequisites
@@ -56,14 +58,18 @@ Build
 mvn clean package
 
 Run (Legacy Sequential Crawler)
+```
 java -classpath target/udacity-webcrawler-1.0.jar \
     com.udacity.webcrawler.main.WebCrawlerMain \
     src/main/config/sample_config_sequential.json
+```
 
 Run (Parallel Crawler)
+```
 java -classpath target/udacity-webcrawler-1.0.jar \
     com.udacity.webcrawler.main.WebCrawlerMain \
     src/main/config/sample_config.json
+```
 
 # 🧪 Running Tests
 # Run all tests
@@ -73,7 +79,7 @@ mvn test
 mvn test -Dtest=WebCrawlerTest
 
 # 📊 Example Output
-
+```
 Crawl Result (crawlResults.json)
 
 {
@@ -84,15 +90,16 @@ Crawl Result (crawlResults.json)
   },
   "urlsVisited": 15
 }
-
+```
 
 Profiler Output (profileData.txt)
-
+```
 Run at Tue, 02 Sep 2025 18:45:21 GMT
 com.udacity.webcrawler.ParallelWebCrawler#crawl took 0m 1s 412ms
-com.udacity.webcrawler.parser.PageParserImpl#parse took 0m 2s 38ms
+com.udacity.webcrawler.parser.PageParserImpl#parse took 0m 2s 
+```
 
-#📌 Learning Outcomes
+# 📌 Learning Outcomes
 
 Implemented builder pattern with Jackson for config handling.
 
@@ -104,7 +111,7 @@ Applied functional programming (Java Streams) for word counting.
 
 Built a custom profiler using dynamic proxies & annotations.
 
-#📄 License
+# 📄 License
 
 This project is open-source under the MIT License.
 
