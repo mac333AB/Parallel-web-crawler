@@ -30,11 +30,19 @@ final class ProfilingMethodInterceptor implements InvocationHandler {
 
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-    // TODO: This method interceptor should inspect the called method to see if it is a profiled
-    //       method. For profiled methods, the interceptor should record the start time, then
-    //       invoke the method using the object that is being profiled. Finally, for profiled
-    //       methods, the interceptor should record how long the method call took, using the
-    //       ProfilingState methods.
+	  if (method.getDeclaringClass() == Object.class) {
+		    switch (method.getName()) {
+		    
+		      case "equals":
+		        return delegate.equals(args[0]);
+		      case "hashCode":
+		        return delegate.hashCode();
+		      case "toString":
+		        return delegate.toString();
+		      default:
+		        throw new IllegalStateException("Unexpected Object method: " + method);
+		    }
+		  }
     Object invoked;
     Instant start = null;
     boolean profiled = method.getAnnotation(Profiled.class) != null;

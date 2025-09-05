@@ -84,28 +84,33 @@ final class ParallelWebCrawler implements WebCrawler {
 
     @Override
     protected Boolean compute() {
-      if (maxDepth == 0 || clock.instant().isAfter(deadline)) {
-        return false;
-      }
+        if (maxDepth == 0 || clock.instant().isAfter(deadline)) {
+            return false;
+          }
+      
       for (Pattern pattern : ignoredUrls) {
         if (pattern.matcher(url).matches()) {
           return false;
         }
       }
-      if (visitedUrls.add(url)) {
+      if (!visitedUrls.add(url)) {
         return false;
       }
-      
+      try {
       PageParser.Result result = parserFactory.get(url).parse();
 
       for (ConcurrentMap.Entry<String, Integer> e : result.getWordCounts().entrySet()) {
         counts.compute(e.getKey(), (k, v) -> (v == null) ? e.getValue() : e.getValue() + v);
       }
+      if (clock.instant().isAfter(deadline)) {
+          return true; 
+        }
       List<crawlTask> subtasks = new ArrayList<>();
       for (String link : result.getLinks()) {
         subtasks.add(new crawlTask(link, deadline, maxDepth -1, counts, visitedUrls));
       }
       invokeAll(subtasks);
+	} catch (Exception e) {}
       return true;
     }
   }
